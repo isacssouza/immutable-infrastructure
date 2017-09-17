@@ -49,7 +49,7 @@ job('bake') {
                 buildNumber("\$${apiBuildNumberParam}")
             }
             flatten()
-            targetDirectory('$WORKSPACE/packer/api.jar')
+            targetDirectory('$WORKSPACE/packer/')
             optional(false)
         }
         shell("cd packer; packer build api.json")

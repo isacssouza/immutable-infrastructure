@@ -9,7 +9,7 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "api.jar",
+      "source": "api*.jar",
       "destination": "/api.jar"
     }
   ]

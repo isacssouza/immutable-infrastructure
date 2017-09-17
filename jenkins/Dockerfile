@@ -12,3 +12,6 @@ RUN echo '!Jenkins123*' /usr/share/jenkins/ref/secrets/initialAdminPassword
 
 RUN wget -nv 'https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip' -O /tmp/packer.zip
 RUN unzip /tmp/packer.zip -d /bin
+
+RUN wget -nv 'https://get.docker.com/builds/Linux/x86_64/docker-1.13.1.tgz' -O /tmp/docker.tgz
+RUN tar -C /usr/bin/ xzf /tpm/docker.tgz docker/docker.tgz
