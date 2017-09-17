@@ -2,7 +2,14 @@ def gitUrl = 'https://github.com/isacssouza/immutable-infrastructure.git'
 
 job('api') {
     scm {
-        git(gitUrl)
+        git {
+            remote {
+                url(gitUrl)
+            }
+            extensions {
+                cleanBeforeCheckout()
+            }
+        }
     }
     steps {
         shell('cd api; ./mvnw -e clean test')
