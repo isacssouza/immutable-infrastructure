@@ -1,6 +1,9 @@
 def gitUrl = 'https://github.com/isacssouza/immutable-infrastructure.git'
 
-job('api') {
+apiBuildNumberParam = 'API_BUILD_NUMBER'
+
+apiBuildName = 'build-api'
+job(apiBuildName) {
     scm {
         git {
             remote {
@@ -22,6 +25,37 @@ job('api') {
             testDataPublishers {
                 publishTestStabilityData()
             }
+        }
+    }
+}
+
+job(bakeJobName) {
+    parameters {
+        stringParam(apiBuildNumberParam, null, 'Api build number to get the artifacts from')
+    }
+    scm {
+        git {
+            remote {
+                url(gitUrl)
+            }
+            extensions {
+                cleanBeforeCheckout()
+            }
+        }
+    }
+    steps {
+        copyArtifacts(apiBuildName) {
+            buildSelector {
+                buildNumber("\$${apiBuildNumberParam}")
+            }
+            optional(false)
+        }
+        shell("cd packer; packer build api.json")
+    }
+    publishers {
+        archiveArtifacts {
+            pattern('packer/*.tar')
+            onlyIfSuccessful()
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "openjdk:8",
+      "export_path": "api-image.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "api-0.0.1-SNAPSHOT.jar",
+      "destination": "/api.jar"
+    }
+  ]
+}
