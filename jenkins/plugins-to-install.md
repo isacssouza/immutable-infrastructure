@@ -1,0 +1,2 @@
+ - Job DSL plugin
+ - Authorize Project plugin

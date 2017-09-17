@@ -1,4 +1,4 @@
-def gitUrl = 'git://github.com/isacssouza/immutable-infrastructure.git'
+def gitUrl = 'https://github.com/isacssouza/immutable-infrastructure.git'
 
 job('api') {
     scm {
