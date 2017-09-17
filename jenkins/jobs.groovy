@@ -12,7 +12,7 @@ job('api') {
         }
     }
     steps {
-        shell('cd api; ./mvnw -e clean test')
+        shell('cd api; ./mvnw -e --batch-mode -T2C clean install')
     }
     publishers {
         archiveArtifacts('**/target/*.jar')
