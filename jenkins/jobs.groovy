@@ -5,6 +5,6 @@ job('api') {
         git(gitUrl)
     }
     steps {
-        maven('-e clean test')
+        maven('-e clean test', 'api/')
     }
 }
