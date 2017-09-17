@@ -29,7 +29,7 @@ job(apiBuildName) {
     }
 }
 
-job(bakeJobName) {
+job('bake') {
     parameters {
         stringParam(apiBuildNumberParam, null, 'Api build number to get the artifacts from')
     }
