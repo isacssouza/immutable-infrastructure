@@ -4,3 +4,4 @@ workflow-aggregator
 git
 github-pullrequest
 test-stability
+copyartifact
