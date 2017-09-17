@@ -3,3 +3,4 @@ authorize-project
 workflow-aggregator
 git
 github-pullrequest
+test-stability

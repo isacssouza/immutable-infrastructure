@@ -8,6 +8,7 @@ job('api') {
         shell('cd api; ./mvnw -e clean test')
     }
     publishers {
+        archiveArtifacts('**/target/**/*.jar')
         archiveJunit('**/target/**/TEST*.xml') {
             allowEmptyResults(false)
             retainLongStdout()
