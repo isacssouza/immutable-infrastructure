@@ -5,6 +5,15 @@ job('api') {
         git(gitUrl)
     }
     steps {
-        maven('-e clean test', 'api/')
+        shell('cd api; ./mvnw -e clean test')
+    }
+    publishers {
+        archiveJunit('**/target/**/TEST*.xml') {
+            allowEmptyResults(false)
+            retainLongStdout()
+            testDataPublishers {
+                publishTestStabilityData()
+            }
+        }
     }
 }
