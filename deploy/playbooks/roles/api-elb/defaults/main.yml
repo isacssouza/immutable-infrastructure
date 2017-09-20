@@ -1,0 +1,2 @@
+api_elb_security_groups: "{{api_elb_sg}}"
+api_elb_subnets: "{{subnets | join(',')}}"

@@ -1,0 +1,26 @@
+- name: create temporary template file
+  tempfile:
+    state: file
+  register: temp_file
+
+- name: create cloud formation template
+  shell: "python {{role_path}}/files/topic_template.py > {{temp_file.path}}"
+
+- name: deploy sns topic
+  cloudformation:
+    region: "{{aws_region}}"
+    stack_name: "sns-topic"
+    state: present
+    template: "{{temp_file.path}}"
+    template_parameters:
+      Email: "{{sns_topic_email}}"
+  register: result
+
+- name: remove temporary file
+  file:
+    path: "{{temp_file.path}}"
+    state: absent
+
+- name: extract stack outputs
+  set_fact:
+    sns_topic_arn: "{{result.stack_outputs.TopicArn}}"

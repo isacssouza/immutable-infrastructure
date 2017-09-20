@@ -1,0 +1,30 @@
+- name: create temporary template file
+  tempfile:
+    state: file
+  register: temp_file
+
+- name: create cloud formation template
+  shell: "python {{role_path}}/files/api_elb_template.py > {{temp_file.path}}"
+
+- name: "deploy api elb stack"
+  cloudformation:
+    region: "{{aws_region}}"
+    stack_name: "api-elb"
+    state: present
+    template: "{{temp_file.path}}"
+    template_parameters:
+      SecurityGroups: "{{api_elb_security_groups}}"
+      VpcId: "{{vpc_id}}"
+      Subnets: "{{api_elb_subnets}}"
+      SnsTopicArn: "{{sns_topic_arn}}"
+  register: api_elb_stack
+
+- name: remove temporary template file
+  file:
+    path: "{{temp_file.path}}"
+    state: absent
+
+- name: extract stack outputs
+  set_fact:
+    api_elb_name: "{{api_elb_stack.stack_outputs.ElbName}}"
+    api_target_group_arn: "{{api_elb_stack.stack_outputs.TargetGroupArn}}"

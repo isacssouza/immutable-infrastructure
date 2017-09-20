@@ -4,3 +4,6 @@ target/
 # idea files
 .idea
 *.iml
+
+# python virtual env
+venv/

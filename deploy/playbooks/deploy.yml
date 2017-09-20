@@ -1,0 +1,16 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    aws_region: us-east-1
+  roles:
+    - role: vpc
+      tags: ["vpc"]
+    - role: sns-topic
+      tags: ["sns-topic"]
+    - role: security-group
+      tags: ["security-group"]
+    - role: api-elb
+      tags: ["api-elb"]
+    - role: api
+      tags: ["api"]

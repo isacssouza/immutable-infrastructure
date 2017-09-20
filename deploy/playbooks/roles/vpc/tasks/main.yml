@@ -1,0 +1,36 @@
+---
+- name: create temporary template file
+  tempfile:
+    state: file
+  register: temp_file
+
+- name: create cloud formation template
+  shell: "python {{role_path}}/files/vpc_template.py > {{temp_file.path}}"
+
+- name: "deploy vpc"
+  cloudformation:
+    region: "{{aws_region}}"
+    stack_name: "vpc"
+    state: present
+    template: "{{temp_file.path}}"
+    template_parameters:
+      VpcIpRange: "{{vpc_ip_range}}"
+      SubnetIpRanges: "{{subnet_ip_ranges | join(',')}}"
+  register: cfn_result
+
+- name: remove template file
+  file:
+    path: "{{temp_file.path}}"
+    state: absent
+
+- name: extract outputs
+  set_fact:
+    subnets:
+      - "{{cfn_result.stack_outputs.SubnetId0}}"
+      - "{{cfn_result.stack_outputs.SubnetId1}}"
+      - "{{cfn_result.stack_outputs.SubnetId2}}"
+    availability_zones:
+      - "{{cfn_result.stack_outputs.SubnetAz0}}"
+      - "{{cfn_result.stack_outputs.SubnetAz1}}"
+      - "{{cfn_result.stack_outputs.SubnetAz2}}"
+    vpc_id: "{{cfn_result.stack_outputs.VpcId}}"

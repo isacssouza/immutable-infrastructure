@@ -1,0 +1,27 @@
+- name: create temporary template file
+  tempfile:
+    state: file
+  register: temp_file
+
+- name: create cloud formation template
+  shell: "python {{role_path}}/files/sg_template.py > {{temp_file.path}}"
+
+- name: "deploy slingshot security groups stack"
+  cloudformation:
+    region: "{{aws_region}}"
+    stack_name: "security-group"
+    state: present
+    template: "{{temp_file.path}}"
+    template_parameters:
+      VpcId: "{{vpc_id}}"
+  register: cfn_result
+
+- name: remove temporary file
+  file:
+    path: "{{temp_file.path}}"
+    state: absent
+
+- name: extract stack outputs
+  set_fact:
+    api_elb_sg: "{{cfn_result.stack_outputs.ApiElbSgId}}"
+    api_sg: "{{cfn_result.stack_outputs.ApiSgId}}"
