@@ -30,7 +30,8 @@ job(apiBuildName) {
     }
 }
 
-job('bake') {
+bakeBuildName = 'bake'
+job(bakeBuildName) {
     parameters {
         stringParam(apiBuildNumberParam, null, 'Api build number to get the artifacts from')
     }
@@ -78,7 +79,7 @@ job('deploy') {
         }
     }
     steps {
-        copyArtifacts(apiBuildName) {
+        copyArtifacts(bakeBuildName) {
             buildSelector {
                 buildNumber("\$${bakeBuildNumberParam}")
             }
