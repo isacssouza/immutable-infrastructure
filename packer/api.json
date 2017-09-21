@@ -5,7 +5,8 @@
   "builders": [
     {
       "type": "docker",
-      "image": "openjdk:8"
+      "image": "openjdk:8",
+      "export_path": "api-image.tar"
     },
     {
       "type": "amazon-ebs",

@@ -1,6 +1,7 @@
 def gitUrl = 'https://github.com/isacssouza/immutable-infrastructure.git'
 
 apiBuildNumberParam = 'API_BUILD_NUMBER'
+bakeBuildNumberParam = 'BAKE_BUILD_NUMBER'
 
 apiBuildName = 'build-api'
 job(apiBuildName) {
@@ -59,5 +60,32 @@ job('bake') {
             pattern('packer/ami-id.txt')
             onlyIfSuccessful()
         }
+    }
+}
+
+job('deploy') {
+    parameters {
+        stringParam(bakeBuildNumberParam, null, 'Bake build number to get the artifacts from')
+    }
+    scm {
+        git {
+            remote {
+                url(gitUrl)
+            }
+            extensions {
+                cleanBeforeCheckout()
+            }
+        }
+    }
+    steps {
+        copyArtifacts(apiBuildName) {
+            buildSelector {
+                buildNumber("\$${bakeBuildNumberParam}")
+            }
+            flatten()
+            targetDirectory('$WORKSPACE/deploy/')
+            optional(false)
+        }
+        shell("jenkins/deploy.sh")
     }
 }
