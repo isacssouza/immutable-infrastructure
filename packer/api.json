@@ -1,16 +1,43 @@
 {
+  "variables": {
+    "jar_path": "api-0.0.1-SNAPSHOT.jar"
+  },
   "builders": [
     {
       "type": "docker",
       "image": "openjdk:8",
       "export_path": "api-image.tar"
+    },
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "instance_type": "t2.medium",
+      "ssh_username": "ec2-user",
+      "source_ami": "ami-4fffc834",
+      "ami_name": "api-{{timestamp}}",
+      "vpc_id": "vpc-945a3ced",
+      "subnet_id": "subnet-9be1c8d3",
+      "associate_public_ip_address": true
     }
   ],
   "provisioners": [
     {
+      "type": "shell",
+      "inline": [
+        "sudo mkdir -p /usr/share/api/",
+        "sudo chown ${USER}:${USER} /usr/share/api/"
+      ],
+      "only": ["amazon-ebs"]
+    },
+    {
+      "type": "shell",
+      "inline": ["mkdir -p /usr/share/api/"],
+      "only": ["docker"]
+    },
+    {
       "type": "file",
-      "source": "api-0.0.1-SNAPSHOT.jar",
-      "destination": "/api.jar"
+      "source": "{{user `jar_path`}}",
+      "destination": "/usr/share/api/api.jar"
     }
   ]
 }

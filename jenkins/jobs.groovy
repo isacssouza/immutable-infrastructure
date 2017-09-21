@@ -52,11 +52,11 @@ job('bake') {
             targetDirectory('$WORKSPACE/packer/')
             optional(false)
         }
-        shell("cd packer; packer build api.json")
+        shell("jenkins/bake.sh")
     }
     publishers {
         archiveArtifacts {
-            pattern('packer/*.tar')
+            pattern('packer/ami-id.txt')
             onlyIfSuccessful()
         }
     }
