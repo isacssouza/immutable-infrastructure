@@ -1,0 +1,29 @@
+- name: create temporary template file
+  tempfile:
+    state: file
+  register: temp_file
+
+- name: create cloud formation template
+  shell: "python {{role_path}}/files/api_asg.py > {{temp_file.path}}"
+
+- name: deploy api stack
+  cloudformation:
+    region: "{{aws_region}}"
+    stack_name: "api-{{version}}"
+    state: present
+    template: "{{temp_file.path}}"
+    template_parameters:
+      SecurityGroup: "{{api_sg}}"
+      KeyName: "{{key_name}}"
+      AmiId: "{{api_ami_id}}"
+      InstanceType: "{{api_instance_type}}"
+      Subnets: "{{subnets | join(',')}}"
+      DesiredCapacity: "{{api_asg_desired_capacity}}"
+      MaxSize: "{{api_asg_max_size}}"
+      MinSize: "{{api_asg_min_size}}"
+      TargetGroupArn: "{{api_target_group_arn}}"
+
+- name: remove template file
+  file:
+    path: "{{temp_file.path}}"
+    state: absent

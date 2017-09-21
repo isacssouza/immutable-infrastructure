@@ -1,0 +1,4 @@
+api_instance_type: "t2.medium"
+api_asg_desired_capacity: "1"
+api_asg_max_size: "3"
+api_asg_min_size: "1"
