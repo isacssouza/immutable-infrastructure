@@ -25,12 +25,19 @@ api_sg = template.add_resource(SecurityGroup(
     'ApiSg',
     VpcId=Ref(vpc_id),
     GroupDescription='Security Group for the api',
-    SecurityGroupIngress=[SecurityGroupRule(
-        IpProtocol="tcp",
-        FromPort="80",
-        ToPort="80",
-        SourceSecurityGroupId=Ref(api_elb_sg),
-    )]
+    SecurityGroupIngress=[
+        SecurityGroupRule(
+            IpProtocol="tcp",
+            FromPort="8080",
+            ToPort="8080",
+            SourceSecurityGroupId=Ref(api_elb_sg),
+        ),
+        SecurityGroupRule(
+            IpProtocol="tcp",
+            FromPort="22",
+            ToPort="22",
+            CidrIp='0.0.0.0/0',
+        )]
 ))
 
 template.add_output(Output(
