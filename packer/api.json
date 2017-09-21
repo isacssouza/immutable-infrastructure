@@ -41,7 +41,16 @@
     {
       "type": "file",
       "source": "api.service",
-      "destination": "/etc/systemd/system/api.service",
+      "destination": "/usr/share/api/api.service",
+      "only": ["amazon-ebs"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /usr/share/api/api.service /etc/systemd/system/api.service",
+        "sudo systemctl daemon-reload",
+        "sudo systemctl enable api.service"
+      ],
       "only": ["amazon-ebs"]
     }
   ]

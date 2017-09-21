@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=ec2-user
+User=centos
 WorkingDirectory=/usr/share/api
-ExecStart=java -jar /usr/share/api/api.jar
+ExecStart=/bin/java -jar /usr/share/api/api.jar
 Restart=always
 
 [Install]
