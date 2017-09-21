@@ -5,15 +5,14 @@
   "builders": [
     {
       "type": "docker",
-      "image": "openjdk:8",
-      "export_path": "api-image.tar"
+      "image": "openjdk:8"
     },
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
       "instance_type": "t2.medium",
-      "ssh_username": "ec2-user",
-      "source_ami": "ami-4fffc834",
+      "ssh_username": "centos",
+      "source_ami": "ami-eb19f791",
       "ami_name": "api-{{timestamp}}",
       "vpc_id": "vpc-945a3ced",
       "subnet_id": "subnet-9be1c8d3",
@@ -38,6 +37,12 @@
       "type": "file",
       "source": "{{user `jar_path`}}",
       "destination": "/usr/share/api/api.jar"
+    },
+    {
+      "type": "file",
+      "source": "api.service",
+      "destination": "/etc/systemd/system/api.service",
+      "only": ["amazon-ebs"]
     }
   ]
 }

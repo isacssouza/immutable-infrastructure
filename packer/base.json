@@ -1,0 +1,23 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "instance_type": "t2.medium",
+      "ssh_username": "centos",
+      "source_ami": "ami-ae7bfdb8",
+      "ami_name": "base-{{timestamp}}",
+      "vpc_id": "vpc-945a3ced",
+      "subnet_id": "subnet-9be1c8d3",
+      "associate_public_ip_address": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum install -y java-1.8.0-openjdk"
+      ]
+    }
+  ]
+}

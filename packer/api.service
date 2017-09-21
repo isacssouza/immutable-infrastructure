@@ -1,0 +1,13 @@
+[Unit]
+Description=Api Service
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/usr/share/api
+ExecStart=java -jar /usr/share/api/api.jar
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
