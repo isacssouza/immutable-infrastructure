@@ -2,13 +2,20 @@ FROM jenkins:latest
 
 USER root
 
+# install plugins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+
+# setup job that will create other jobs
 COPY seed-job.xml /usr/share/jenkins/ref/jobs/create-jobs/config.xml
 
-RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+# prevent initial setup screen
 RUN echo 2.60.3 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
 RUN echo 2.60.3 > /usr/share/jenkins/ref/jenkins.install.InstallUtil.lastExecVersion
 RUN echo '!Jenkins123*' /usr/share/jenkins/ref/secrets/initialAdminPassword
+
+# install additional tools
+RUN apt-get update && apt-get install -y python-virtualenv
 
 RUN wget -nv 'https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip' -O /tmp/packer.zip
 RUN unzip /tmp/packer.zip -d /bin
