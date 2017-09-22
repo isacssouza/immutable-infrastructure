@@ -56,8 +56,11 @@ def delete_new(version):
 def is_service_up(dns):
     url = 'http://{}/'.format(dns)
     print('GET {}'.format(url))
-    response = urllib2.urlopen(url)
-    return response.getcode() == 200
+    try:
+        response = urllib2.urlopen(url)
+        return response.getcode() == 200
+    except urllib2.URLError:
+        return False
 
 
 def is_version_healthy(version):
