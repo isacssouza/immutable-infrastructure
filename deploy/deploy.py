@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 import subprocess
 import boto3
 import urllib2
+import os
 
 
 def parse_args():
@@ -35,7 +36,7 @@ def to_tag_dict(tags):
 
 
 def delete_old(new_version):
-    client = boto3.client('cloudformation')
+    client = boto3.client('cloudformation', region_name=os.environ['AWS_REGION'])
 
     all_stacks = client.describe_stacks()
 
@@ -47,7 +48,7 @@ def delete_old(new_version):
 
 
 def delete_new(version):
-    client = boto3.client('cloudformation')
+    client = boto3.client('cloudformation', region_name=os.environ['AWS_REGION'])
 
     client.delete_stack(StackName='api-{}'.format(version))
 
@@ -60,7 +61,7 @@ def is_service_up(dns):
 
 
 def is_version_healthy(version):
-    client = boto3.client('cloudformation')
+    client = boto3.client('cloudformation', region_name=os.environ['AWS_REGION'])
     stacks = client.describe_stacks(StackName='api-{}'.format(version))
     stack = stacks['Stacks'][0]
 
