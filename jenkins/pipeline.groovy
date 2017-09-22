@@ -1,8 +1,8 @@
 apiBuildNumberParam = 'API_BUILD_NUMBER'
 bakeBuildNumberParam = 'BAKE_BUILD_NUMBER'
 
-var apiBuild = null
-var bakeBuild = null
+apiBuild = null
+bakeBuild = null
 pipeline {
     agent any
     options {
