@@ -22,6 +22,9 @@
       MaxSize: "{{api_asg_max_size}}"
       MinSize: "{{api_asg_min_size}}"
       TargetGroupArn: "{{api_target_group_arn}}"
+    tags:
+      Application: "true"
+      Version: "{{version}}"
 
 - name: remove template file
   file:
