@@ -3,6 +3,7 @@ import subprocess
 import boto3
 import urllib2
 import os
+import time
 
 
 def parse_args():
@@ -57,9 +58,11 @@ def is_service_up(dns):
     url = 'http://{}/'.format(dns)
     print('GET {}'.format(url))
     try:
+        time.sleep(30)
         response = urllib2.urlopen(url)
         return response.getcode() == 200
     except urllib2.URLError:
+        print('Failed to get url. Code: {}'.format(response.getcode()))
         return False
 
 
@@ -90,7 +93,7 @@ def main():
         delete_old(version)
     else:
         print('New version is not healthy, deleting new version.')
-        # delete_new(version)
+        delete_new(version)
 
 
 if __name__ == '__main__':
