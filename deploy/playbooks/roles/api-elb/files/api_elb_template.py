@@ -166,8 +166,14 @@ template.add_resource(Alarm(
 ))
 
 template.add_output(Output(
+    'ElbDns',
+    Description='Dns of the api load balancer.',
+    Value=GetAtt(load_balancer, 'DNSName')
+))
+
+template.add_output(Output(
     'ElbName',
-    Description='Logical ID of this the api load balancer.',
+    Description='Logical ID of the api load balancer.',
     Value=Ref(load_balancer)
 ))
 
