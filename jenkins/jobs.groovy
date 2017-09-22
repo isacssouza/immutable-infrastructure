@@ -90,3 +90,21 @@ job('deploy') {
         shell("jenkins/deploy.sh")
     }
 }
+
+pipelineJob('pipeline') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url(gitUrl)
+                    }
+                    extensions {
+                        cleanBeforeCheckout()
+                    }
+                }
+            }
+            scriptPath("jenkins/pipeline.groovy")
+        }
+    }
+}
