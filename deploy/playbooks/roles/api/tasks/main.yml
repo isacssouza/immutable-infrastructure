@@ -13,7 +13,8 @@
     state: present
     template: "{{temp_file.path}}"
     template_parameters:
-      SecurityGroup: "{{api_sg}}"
+      VpcId: "{{vpc_id}}"
+      SnsTopicArn: "{{sns_topic_arn}}"
       KeyName: "{{key_name}}"
       AmiId: "{{api_ami_id}}"
       InstanceType: "{{api_instance_type}}"
@@ -21,7 +22,7 @@
       DesiredCapacity: "{{api_asg_desired_capacity}}"
       MaxSize: "{{api_asg_max_size}}"
       MinSize: "{{api_asg_min_size}}"
-      TargetGroupArn: "{{api_target_group_arn}}"
+      Version: "{{version}}"
     tags:
       Application: "true"
       Version: "{{version}}"

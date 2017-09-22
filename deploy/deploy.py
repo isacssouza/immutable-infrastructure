@@ -12,13 +12,12 @@ def parse_args():
 
 
 def deploy(version, ami_id):
-    print("Deploying version {} using AMI {}.".format(version, ami_id))
+    print("Deploying version {} using {}.".format(version, ami_id))
 
-    command = "ansible-playbook "
-    command += "-e \"api_ami_id={}\" ".format(ami_id)
-    command += "-e \"version={}\" ".format(version)
-    command += "-t vpc,security-group,sns-topic,api-elb,api "
-    command += "playbooks/deploy.yml"
+    command = 'ansible-playbook '
+    command += '-e "api_ami_id={}" '.format(ami_id)
+    command += '-e "version={}" '.format(version)
+    command += 'playbooks/deploy.yml'
 
     subprocess.call(command, shell=True)
 
@@ -54,7 +53,10 @@ def delete_new(version):
 
 
 def is_service_up(dns):
-    return urllib2.urlopen('http://{}/'.format(dns)).getcode() == 200
+    url = 'http://{}/'.format(dns)
+    print('GET {}'.format(url))
+    response = urllib2.urlopen(url)
+    return response.getcode() == 200
 
 
 def is_version_healthy(version):

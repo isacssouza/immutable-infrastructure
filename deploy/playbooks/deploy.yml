@@ -10,7 +10,5 @@
       tags: ["sns-topic"]
     - role: security-group
       tags: ["security-group"]
-    - role: api-elb
-      tags: ["api-elb"]
     - role: api
       tags: ["api"]
