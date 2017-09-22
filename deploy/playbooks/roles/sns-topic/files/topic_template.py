@@ -2,7 +2,7 @@ from troposphere import Output, Ref, Template, Parameter
 from troposphere.sns import Topic, SubscriptionResource
 
 
-template = Template(Description='Creates a new SNS Topic')
+template = Template()
 
 email = template.add_parameter(Parameter(
     'Email',
