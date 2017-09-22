@@ -90,7 +90,7 @@ def main():
         delete_old(version)
     else:
         print('New version is not healthy, deleting new version.')
-        delete_new(version)
+        # delete_new(version)
 
 
 if __name__ == '__main__':
