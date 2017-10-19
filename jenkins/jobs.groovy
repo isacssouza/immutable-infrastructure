@@ -10,6 +10,7 @@ job(apiBuildName) {
             remote {
                 url(gitUrl)
             }
+            branch('master')
             extensions {
                 cleanBeforeCheckout()
             }
@@ -45,6 +46,7 @@ job(bakeBuildName) {
             remote {
                 url(gitUrl)
             }
+            branch('master')
             extensions {
                 cleanBeforeCheckout()
             }
@@ -78,6 +80,7 @@ job('deploy') {
             remote {
                 url(gitUrl)
             }
+            branch('master')
             extensions {
                 cleanBeforeCheckout()
             }
@@ -104,6 +107,7 @@ pipelineJob('pipeline') {
                     remote {
                         url(gitUrl)
                     }
+                    branch('master')
                     extensions {
                         cleanBeforeCheckout()
                     }
