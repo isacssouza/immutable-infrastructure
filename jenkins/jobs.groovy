@@ -27,7 +27,7 @@ job(apiBuildName) {
                 publishTestStabilityData()
             }
         }
-        jacocoCodeCoverage
+        jacocoCodeCoverage {}
         checkstyle {
             canRunOnFailed(true)
         }

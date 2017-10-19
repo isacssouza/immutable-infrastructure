@@ -5,3 +5,5 @@ git
 github-pullrequest
 test-stability
 copyartifact
+jacoco
+checkstyle
