@@ -9,6 +9,9 @@ RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 # setup job that will create other jobs
 COPY seed-job.xml /usr/share/jenkins/ref/jobs/create-jobs/config.xml
 
+# pre-authorize some pipeline functions
+COPY scriptApproval.xml /usr/share/jenkins/ref/scriptApproval.xml
+
 # prevent initial setup screen
 RUN echo 2.60.3 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
 RUN echo 2.60.3 > /usr/share/jenkins/ref/jenkins.install.InstallUtil.lastExecVersion
