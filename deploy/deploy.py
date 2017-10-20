@@ -54,16 +54,23 @@ def delete_new(version):
     client.delete_stack(StackName='api-{}'.format(version))
 
 
-def is_service_up(dns):
+def is_service_up(dns, tries=0, max_tries=10):
     url = 'http://{}/'.format(dns)
     print('GET {}'.format(url))
+
+    success = False
     try:
-        time.sleep(30)
         response = urllib2.urlopen(url)
-        return response.getcode() == 200
-    except urllib2.URLError:
-        print('Failed to get url. Code: {}'.format(response.getcode()))
-        return False
+        print('Service returned code: {}'.format(response.getcode()))
+        success = response.getcode() == 200
+    except urllib2.URLError as e:
+        print('Failed to get url. Error: {}'.format(e))
+
+    if not success and tries < max_tries:
+        time.sleep(10)
+        success = is_service_up(dns, tries + 1, max_tries)
+
+    return success
 
 
 def is_version_healthy(version):
