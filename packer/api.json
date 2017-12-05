@@ -10,13 +10,19 @@
     },
     {
       "type": "amazon-ebs",
-      "region": "us-east-1",
+      "region": "us-east-2",
       "instance_type": "t2.medium",
       "ssh_username": "centos",
-      "source_ami": "ami-eb19f791",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "CentOS Linux 7 x86_64 HVM*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["410186602215"],
+        "most_recent": true
+      },
       "ami_name": "api-{{timestamp}}",
-      "vpc_id": "vpc-945a3ced",
-      "subnet_id": "subnet-9be1c8d3",
       "associate_public_ip_address": true
     }
   ],
@@ -24,6 +30,7 @@
     {
       "type": "shell",
       "inline": [
+        "sudo yum install -y java-1.8.0-openjdk",
         "sudo mkdir -p /usr/share/api/",
         "sudo chown ${USER}:${USER} /usr/share/api/"
       ],
