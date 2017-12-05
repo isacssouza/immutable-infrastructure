@@ -42,7 +42,7 @@ template.add_resource(VPCGatewayAttachment(
     VpcId=Ref(vpc)
 ))
 
-for idx, zone in enumerate(['us-east-1a', 'us-east-1b', 'us-east-1c']):
+for idx, zone in enumerate(['us-east-2a', 'us-east-2b', 'us-east-2c']):
     subnet = template.add_resource(Subnet(
         'Subnet{}'.format(idx),
         AvailabilityZone=zone,
