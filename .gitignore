@@ -5,5 +5,8 @@ target/
 .idea
 *.iml
 
+# vscode files
+.vscode
+
 # python virtual env
 venv/
