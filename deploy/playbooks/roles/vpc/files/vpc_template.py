@@ -1,12 +1,8 @@
-from troposphere import Template, Ref, Parameter, Select, Output
+from troposphere import Template, Ref, Parameter, Select, Output, GetAZs
 from troposphere.ec2 import VPC, Subnet, InternetGateway, RouteTable, Route, \
     SubnetRouteTableAssociation, VPCGatewayAttachment
 
 VPC_LOGICAL_NAME = 'Vpc'
-
-ZONE_0 = 'Zone0'
-ZONE_1 = 'Zone1'
-ZONE_2 = 'Zone2'
 
 
 template = Template()
@@ -42,7 +38,8 @@ template.add_resource(VPCGatewayAttachment(
     VpcId=Ref(vpc)
 ))
 
-for idx, zone in enumerate(['us-east-2a', 'us-east-2b', 'us-east-2c']):
+for idx in range(0, 3):
+    zone = Select(idx, GetAZs(region))
     subnet = template.add_resource(Subnet(
         'Subnet{}'.format(idx),
         AvailabilityZone=zone,

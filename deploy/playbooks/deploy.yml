@@ -2,7 +2,7 @@
   connection: local
   gather_facts: no
   vars:
-    aws_region: us-east-2
+    aws_region: "{{ lookup('env','AWS_REGION') }}"
   roles:
     - role: vpc
       tags: ["vpc"]
